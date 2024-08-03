@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
+import { CircleUser, Loader2, Menu, Package2, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,8 +17,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+import { useLogout } from "@/hooks/api/useAuth";
+
 export function DashboardLayout({ children }: any) {
+  const router = useRouter();
   const pathname = usePathname();
+
+  const { mutate: logoutUser, isPending } = useLogout();
 
   const listMenu = [
     {
@@ -42,6 +47,14 @@ export function DashboardLayout({ children }: any) {
       color: "text-muted-foreground",
     },
   ];
+
+  const onClickLogout = () => {
+    logoutUser(null, {
+      onSuccess: () => {
+        router.push("/login");
+      },
+    });
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -144,7 +157,13 @@ export function DashboardLayout({ children }: any) {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={onClickLogout}
+                className="cursor-pointer"
+              >
+                Logout
+                {isPending && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

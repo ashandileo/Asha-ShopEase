@@ -7,3 +7,9 @@ export const useLogin = () => {
     mutationFn: (body: any) => axios.post("/api/auth/login", body),
   });
 };
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: (body: any) => axios.delete("/api/auth/logout"),
+  });
+};
