@@ -71,13 +71,12 @@ const ProductsDialog = ({
       name: "",
       color: "",
       price: "",
-      categoryId: "",
       description: "",
     },
   });
 
   const { mutate: createProduct } = usePostProduct();
-  const { mutate: editProduct } = useEditProduct(detailData?.products?.id);
+  const { mutate: editProduct } = useEditProduct(detailData?.id);
 
   function onSubmit(values: z.infer<typeof productsSchema>) {
     const queryFN = isEdit ? editProduct : createProduct;
@@ -85,7 +84,6 @@ const ProductsDialog = ({
     const formattedValues = {
       ...values,
       price: parseFloat(values.price),
-      categoryId: 1,
     };
 
     queryFN(formattedValues, {
@@ -108,20 +106,17 @@ const ProductsDialog = ({
 
   useEffect(() => {
     if (isEdit && detailData) {
-      console.log("detailData", detailData);
       form.reset({
-        name: detailData?.products?.name,
-        color: detailData.products?.color,
-        price: detailData.products?.price.toString(),
-        categoryId: detailData.categories?.id.toString(),
-        description: detailData.products?.description,
+        name: detailData?.name,
+        color: detailData?.color,
+        price: detailData?.price.toString(),
+        description: detailData?.description,
       });
     } else {
       form.reset({
         name: "",
         color: "",
         price: "",
-        categoryId: "",
         description: "",
       });
     }
@@ -212,37 +207,6 @@ const ProductsDialog = ({
                           type="number"
                           {...field}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="col-span-2">
-                <FormField
-                  control={form.control}
-                  name="categoryId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Label className="mb-2 block" htmlFor="category">
-                        Category
-                      </Label>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          disabled={isViewDetail}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="manager">Manager</SelectItem>
-                            <SelectItem value="user">User</SelectItem>
-                          </SelectContent>
-                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

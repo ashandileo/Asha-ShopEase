@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { categoriesTable, productsTable } from "@/db/schema";
+import { productsTable } from "@/db/schema";
 import { createBaseResponse } from "@/lib/baseResponse";
 import { and, asc, count, eq, like } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,10 +15,6 @@ export async function GET(request: NextRequest) {
     let query = db
       .select()
       .from(productsTable)
-      .leftJoin(
-        categoriesTable,
-        eq(productsTable.categoryId, categoriesTable.id)
-      )
       .orderBy(asc(productsTable.id))
       .limit(pageSize)
       .offset((page - 1) * pageSize);
@@ -59,7 +55,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   const newProduct = {
-    categoryId: body.categoryId,
+    categoryId: 1,
     name: body.name,
     color: body.color,
     description: body.description,

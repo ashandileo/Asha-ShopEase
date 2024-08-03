@@ -10,7 +10,7 @@ export async function PUT(request: NextRequest, route: any) {
   const userId = parseInt(id);
 
   const updateData = {
-    categoryId: body.categoryId,
+    categoryId: 1,
     name: body.name,
     color: body.color,
     description: body.description,

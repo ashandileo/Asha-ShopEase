@@ -82,14 +82,13 @@ const ProductsTable = ({
           <TableRow>
             <TableHead>Product name</TableHead>
             <TableHead>Color</TableHead>
-            <TableHead>Category</TableHead>
             <TableHead>Price</TableHead>
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {isFetching ? (
-            <RowsLoader cellCount={5} rowCount={5} />
+            <RowsLoader cellCount={4} rowCount={5} />
           ) : (
             products?.map((product: any) => (
               <Row
@@ -138,11 +137,10 @@ interface IRow {
 const Row = ({ product, onClickDetail }: IRow) => {
   return (
     <TableRow>
-      <TableCell className="font-medium">{product?.products?.name}</TableCell>
-      <TableCell>{product?.products?.color}</TableCell>
-      <TableCell>{product?.categories?.name}</TableCell>
+      <TableCell className="font-medium">{product?.name}</TableCell>
+      <TableCell>{product?.color}</TableCell>
       <TableCell>
-        {product?.products?.price.toLocaleString("id-ID", {
+        {product?.price.toLocaleString("id-ID", {
           style: "currency",
           currency: "IDR",
         })}
