@@ -24,6 +24,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +39,14 @@ const OrdersTable = () => {
         <Input type="text" placeholder="Search..." />
         <Button variant="outline">Search</Button>
       </div>
+
+      <Tabs defaultValue="pending" className="w-[400px] mb-[24px]">
+        <TabsList>
+          <TabsTrigger value="pending">Pending</TabsTrigger>
+          <TabsTrigger value="shipped">Shipped</TabsTrigger>
+          <TabsTrigger value="delivered">Delivered</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       <Table>
         <TableHeader>
