@@ -32,6 +32,7 @@ const UsersView = () => {
               detailData={detailData}
               setDetailData={setDetailData}
               isViewDetail={isViewDetail}
+              setIsViewDetail={setIsViewDetail}
             />
           </div>
         </CardHeader>

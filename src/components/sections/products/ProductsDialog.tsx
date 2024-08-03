@@ -47,6 +47,7 @@ interface IProductsDialog {
   detailData: any;
   setDetailData: (detailData: any) => void;
   isViewDetail: boolean;
+  setIsViewDetail: (isViewDetail: boolean) => void;
 }
 
 const ProductsDialog = ({
@@ -55,7 +56,12 @@ const ProductsDialog = ({
   detailData,
   setDetailData,
   isViewDetail,
+  setIsViewDetail,
 }: IProductsDialog) => {
+  console.log("detailData", detailData);
+
+  const isEdit = !!detailData;
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -71,10 +77,10 @@ const ProductsDialog = ({
   });
 
   const { mutate: createProduct } = usePostProduct();
-  const { mutate: editProduct } = useEditProduct(detailData?.id);
+  const { mutate: editProduct } = useEditProduct(detailData?.products?.id);
 
   function onSubmit(values: z.infer<typeof productsSchema>) {
-    const queryFN = detailData ? editProduct : createProduct;
+    const queryFN = isEdit ? editProduct : createProduct;
 
     const formattedValues = {
       ...values,
@@ -91,7 +97,6 @@ const ProductsDialog = ({
         setOpenDialog(false);
       },
       onError: (data: any) => {
-        console.log("data", data);
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
@@ -102,26 +107,46 @@ const ProductsDialog = ({
   }
 
   useEffect(() => {
-    if (!detailData) return;
-    form.reset({
-      name: detailData.name,
-      color: detailData.color,
-      price: detailData.price,
-      categoryId: detailData.categoryId,
-      description: detailData.description,
-    });
-  }, [detailData]);
+    if (isEdit && detailData) {
+      console.log("detailData", detailData);
+      form.reset({
+        name: detailData?.products?.name,
+        color: detailData.products?.color,
+        price: detailData.products?.price.toString(),
+        categoryId: detailData.categories?.id.toString(),
+        description: detailData.products?.description,
+      });
+    } else {
+      form.reset({
+        name: "",
+        color: "",
+        price: "",
+        categoryId: "",
+        description: "",
+      });
+    }
+  }, [detailData, isEdit]);
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline">Craete Product</Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            setDetailData(null);
+            setIsViewDetail(false);
+          }}
+        >
+          Create Product
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader className="mb-[24px]">
-              <DialogTitle>Create Product</DialogTitle>
+              <DialogTitle>{`${
+                isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"
+              } Product`}</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
@@ -229,6 +254,7 @@ const ProductsDialog = ({
                 <FormField
                   control={form.control}
                   name="description"
+                  disabled={isViewDetail}
                   render={({ field }) => (
                     <FormItem>
                       <Label className="mb-2 block" htmlFor="description">
@@ -248,9 +274,11 @@ const ProductsDialog = ({
                 />
               </div>
             </div>
-            <DialogFooter>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
+            {!isViewDetail && (
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            )}
           </form>
         </Form>
       </DialogContent>

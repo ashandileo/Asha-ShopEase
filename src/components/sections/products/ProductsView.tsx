@@ -34,6 +34,7 @@ const ProductsView = () => {
               detailData={detailData}
               setDetailData={setDetailData}
               isViewDetail={isViewDetail}
+              setIsViewDetail={setIsViewDetail}
             />
           </div>
         </CardHeader>

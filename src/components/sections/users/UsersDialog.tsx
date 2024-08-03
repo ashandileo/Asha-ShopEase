@@ -47,6 +47,7 @@ interface IUsersDialog {
   detailData: any;
   setDetailData: (detailData: any) => void;
   isViewDetail: boolean;
+  setIsViewDetail: (isViewDetail: boolean) => void;
 }
 
 const UsersDialog = ({
@@ -55,7 +56,10 @@ const UsersDialog = ({
   detailData,
   setDetailData,
   isViewDetail,
+  setIsViewDetail,
 }: IUsersDialog) => {
+  const isEdit = !!detailData;
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -74,7 +78,7 @@ const UsersDialog = ({
   const { mutate: editUser } = useEditUser(detailData?.id);
 
   function onSubmit(values: z.infer<typeof usersSchema>) {
-    const queryFN = detailData ? editUser : createUser;
+    const queryFN = isEdit ? editUser : createUser;
 
     queryFN(values, {
       onSuccess: (data) => {
@@ -95,20 +99,35 @@ const UsersDialog = ({
   }
 
   useEffect(() => {
-    if (!detailData) return;
-    form.reset({
-      fullname: detailData.fullname,
-      email: detailData.email,
-      role: detailData.role,
-      status: detailData.status,
-      password: "",
-    });
-  }, [detailData]);
+    if (isEdit && detailData) {
+      form.reset({
+        fullname: detailData.fullname,
+        email: detailData.email,
+        role: detailData.role,
+        status: detailData.status,
+        password: "",
+      });
+    } else {
+      form.reset({
+        fullname: "",
+        email: "",
+        role: "admin",
+        status: "active",
+        password: "",
+      });
+    }
+  }, [detailData, isEdit]);
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline" onClick={() => setDetailData(null)}>
+        <Button
+          variant="outline"
+          onClick={() => {
+            setDetailData(null);
+            setIsViewDetail(false);
+          }}
+        >
           Create User
         </Button>
       </DialogTrigger>
@@ -117,9 +136,9 @@ const UsersDialog = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader className="mb-[24px]">
-              <DialogTitle>
-                {`${detailData ? "Edit" : "Create"} User`}
-              </DialogTitle>
+              <DialogTitle>{`${
+                isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"
+              } User`}</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">

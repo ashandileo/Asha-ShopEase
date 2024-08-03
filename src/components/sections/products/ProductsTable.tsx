@@ -159,8 +159,12 @@ const Row = ({ product, onClickDetail }: IRow) => {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>View Detail</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onClickDetail(product, false)}>
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onClickDetail(product, true)}>
+              View Detail
+            </DropdownMenuItem>
             <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
