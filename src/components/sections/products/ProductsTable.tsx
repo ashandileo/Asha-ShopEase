@@ -82,11 +82,10 @@ const ProductsTable = ({
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Search Product Name.."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button variant="outline">Search</Button>
       </div>
 
       <Table>

@@ -87,7 +87,7 @@ const UsersTable = ({
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Search User Fullname.."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
