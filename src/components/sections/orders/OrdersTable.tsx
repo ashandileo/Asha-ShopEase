@@ -67,11 +67,13 @@ const OrdersTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [searchDebounce] = useDebounce(search, 1000);
+  const [status, setStatus] = useState("pending");
 
   const params = {
     page: currentPage,
     pageSize: 5,
     search: searchDebounce,
+    status,
   };
   const { data, isFetching } = useGetOrders(params);
 
@@ -88,7 +90,7 @@ const OrdersTable = ({
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Search Shipping Address"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -96,9 +98,15 @@ const OrdersTable = ({
 
       <Tabs defaultValue="pending" className="w-[400px] mb-[24px]">
         <TabsList>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="shipped">Shipped</TabsTrigger>
-          <TabsTrigger value="delivered">Delivered</TabsTrigger>
+          <TabsTrigger onClick={() => setStatus("pending")} value="pending">
+            Pending
+          </TabsTrigger>
+          <TabsTrigger onClick={() => setStatus("shipped")} value="shipped">
+            Shipped
+          </TabsTrigger>
+          <TabsTrigger onClick={() => setStatus("delivered")} value="delivered">
+            Delivered
+          </TabsTrigger>
         </TabsList>
       </Tabs>
 

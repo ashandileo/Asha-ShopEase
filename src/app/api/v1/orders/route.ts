@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (status) {
-    conditions.push(sql`${usersTable.status} = ${status}`);
+    conditions.push(sql`${ordersTable.status} = ${status}`);
   }
 
   const orders = await db
