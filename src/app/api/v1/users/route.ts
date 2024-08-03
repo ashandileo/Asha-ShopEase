@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 import { createBaseResponse } from "@/lib/baseResponse";
-import { asc, count } from "drizzle-orm";
+import { asc, count, sql, like, and } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 // Handler function for GET requests
@@ -10,14 +10,32 @@ export async function GET(request: NextRequest) {
 
   const page = parseInt(searchParams.get("page") || "1");
   const pageSize = parseInt(searchParams.get("pageSize") || "2");
+  const search = searchParams.get("search") || "";
+  const status = searchParams.get("status") || "";
 
   const getUsers = async () => {
-    return await db
+    let query = db
       .select()
       .from(usersTable)
       .orderBy(asc(usersTable.id))
       .limit(pageSize)
       .offset((page - 1) * pageSize);
+
+    const conditions = [];
+
+    if (search) {
+      conditions.push(like(usersTable.fullname, `%${search}%`));
+    }
+
+    if (status) {
+      conditions.push(sql`${usersTable.status} = ${status}`);
+    }
+
+    if (conditions.length > 0) {
+      query.where(and(...conditions));
+    }
+
+    return await query;
   };
 
   const filteredUsers = await getUsers();

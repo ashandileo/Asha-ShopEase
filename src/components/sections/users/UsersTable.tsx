@@ -29,7 +29,6 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -37,12 +36,19 @@ import { useGetUsers } from "@/hooks/api/useUsers";
 
 import { RowsLoader } from "@/components/ui/rows-loader";
 
+import { useDebounce } from "use-debounce";
+
 const UsersTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [searchDebounce] = useDebounce(search, 1000);
+  const [status, setStatus] = useState("active");
 
   const params = {
     page: currentPage,
     pageSize: 5,
+    search: searchDebounce,
+    status,
   };
   const { data, isFetching } = useGetUsers(params);
 
@@ -51,14 +57,25 @@ const UsersTable = () => {
   return (
     <>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
-        <Input type="text" placeholder="Search..." />
-        <Button variant="outline">Search</Button>
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       <Tabs defaultValue="active" className="w-[400px] mb-[24px]">
         <TabsList>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="deactivated">Deactivated</TabsTrigger>
+          <TabsTrigger onClick={() => setStatus("active")} value="active">
+            Active
+          </TabsTrigger>
+          <TabsTrigger
+            onClick={() => setStatus("inactive")}
+            value="deactivated"
+          >
+            Deactivated
+          </TabsTrigger>
         </TabsList>
       </Tabs>
 
