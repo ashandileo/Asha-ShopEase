@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
+import { hashPassword } from "@/lib/auth";
 import { createBaseResponse } from "@/lib/baseResponse";
 import { asc, count, sql, like, and } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,7 +16,15 @@ export async function GET(request: NextRequest) {
 
   const getUsers = async () => {
     let query = db
-      .select()
+      .select({
+        id: usersTable.id,
+        fullname: usersTable.fullname,
+        email: usersTable.email,
+        role: usersTable.role,
+        status: usersTable.status,
+        createdAt: usersTable.createdAt,
+        updateAt: usersTable.updateAt,
+      })
       .from(usersTable)
       .orderBy(asc(usersTable.id))
       .limit(pageSize)
@@ -55,4 +64,33 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(createBaseResponse(200, "Success", response), {
     status: 200,
   });
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+
+  const newUser = {
+    fullname: body.fullname,
+    email: body.email,
+    role: body.role,
+    status: body.status,
+    password: await hashPassword(body.password),
+  };
+
+  const [insertedUser] = await db.insert(usersTable).values(newUser).returning({
+    id: usersTable.id,
+    fullname: usersTable.fullname,
+    email: usersTable.email,
+    role: usersTable.role,
+    status: usersTable.status,
+    createdAt: usersTable.createdAt,
+    updateAt: usersTable.updateAt,
+  });
+
+  return NextResponse.json(
+    createBaseResponse(201, "User created successfully", {
+      user: insertedUser,
+    }),
+    { status: 201 }
+  );
 }

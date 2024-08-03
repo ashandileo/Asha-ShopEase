@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -36,8 +36,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import usersSchema from "@/lib/zod/users.schema";
 import { z } from "zod";
+import { usePostUser } from "@/hooks/api/useUsers";
+import { useQueryClient } from "@tanstack/react-query";
+import { DialogClose } from "@radix-ui/react-dialog";
+
+import { useToast } from "@/components/ui/use-toast";
 
 const UsersDialog = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof usersSchema>>({
     resolver: zodResolver(usersSchema),
     defaultValues: {
@@ -49,12 +57,24 @@ const UsersDialog = () => {
     },
   });
 
+  const [open, setOpen] = useState(false);
+
+  const { mutate: createUser, isPending } = usePostUser();
+
   function onSubmit(values: z.infer<typeof usersSchema>) {
-    console.log(values);
+    createUser(values, {
+      onSuccess: (data) => {
+        toast({
+          description: data?.data?.message,
+        });
+        queryClient.refetchQueries({ queryKey: ["users"] });
+        setOpen(false);
+      },
+    });
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Create User</Button>
       </DialogTrigger>
@@ -198,7 +218,11 @@ const UsersDialog = () => {
             </div>
 
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <DialogClose>
+                <Button type="submit" isLoading={isPending}>
+                  Save changes
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
