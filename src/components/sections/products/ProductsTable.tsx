@@ -26,10 +26,18 @@ import {
 
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { buttonVariants } from "@/components/ui/button";
 
 const ProductsTable = () => {
   return (
     <>
+      <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
+        <Input type="text" placeholder="Search..." />
+        <Button variant="outline">Search</Button>
+      </div>
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -51,12 +59,13 @@ const ProductsTable = () => {
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <Button
-                    variant="outline"
-                    className="!w-[32px] !h-[32px] !p-0"
+                  <div
+                    className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
+                      variant: "outline",
+                    })}`}
                   >
                     <DotsVerticalIcon />
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>Edit</DropdownMenuItem>
