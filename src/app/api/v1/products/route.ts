@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { categoriesTable, productsTable } from "@/db/schema";
 import { createBaseResponse } from "@/lib/baseResponse";
-import { asc, count, eq, like } from "drizzle-orm";
+import { and, asc, count, eq, like } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const pageSize = parseInt(searchParams.get("pageSize") || "2");
   const search = searchParams.get("search") || "";
 
-  const getUsers = async () => {
+  const getProducts = async () => {
     let query = db
       .select()
       .from(productsTable)
@@ -29,10 +29,14 @@ export async function GET(request: NextRequest) {
       conditions.push(like(productsTable.name, `%${search}%`));
     }
 
+    if (conditions.length > 0) {
+      query.where(and(...conditions));
+    }
+
     return await query;
   };
 
-  const filteredProducts = await getUsers();
+  const filteredProducts = await getProducts();
 
   const totalProducts = await db.select({ count: count() }).from(productsTable);
   const totalItems = totalProducts[0].count;
