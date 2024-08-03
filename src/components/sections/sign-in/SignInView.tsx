@@ -28,8 +28,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import signInSchema from "@/lib/zod/sign-in.schema";
 
 import { z } from "zod";
+import { useLogin } from "@/hooks/api/useAuth";
+import { useRouter } from "next/navigation";
 
 const SignInView = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -38,10 +42,15 @@ const SignInView = () => {
     },
   });
 
+  const { mutate: loginUser } = useLogin();
+
   function onSubmit(values: z.infer<typeof signInSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    loginUser(values, {
+      onSuccess: () => {
+        // Redirect to dashboard.
+        router.push("/dashboard");
+      },
+    });
   }
 
   return (
