@@ -31,8 +31,11 @@ import { z } from "zod";
 import { useLogin } from "@/hooks/api/useAuth";
 import { useRouter } from "next/navigation";
 
+import { useToast } from "@/components/ui/use-toast";
+
 const SignInView = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -42,13 +45,20 @@ const SignInView = () => {
     },
   });
 
-  const { mutate: loginUser } = useLogin();
+  const { mutate: loginUser, isPending } = useLogin();
 
   function onSubmit(values: z.infer<typeof signInSchema>) {
     loginUser(values, {
       onSuccess: () => {
         // Redirect to dashboard.
         router.push("/dashboard");
+      },
+      onError: (data: any) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: data?.response?.data?.message,
+        });
       },
     });
   }
@@ -76,7 +86,7 @@ const SignInView = () => {
                         <Input
                           id="email"
                           type="email"
-                          placeholder="m@example.com"
+                          placeholder="Enter Email Address"
                           required
                           {...field}
                         />
@@ -93,7 +103,12 @@ const SignInView = () => {
                     <FormItem>
                       <Label htmlFor="password">Password</Label>
                       <FormControl>
-                        <Input id="password" type="password" {...field} />
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="Enter Password"
+                          {...field}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -102,7 +117,7 @@ const SignInView = () => {
               <FormMessage />
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" isLoading={isPending}>
                 Sign in
               </Button>
             </CardFooter>
