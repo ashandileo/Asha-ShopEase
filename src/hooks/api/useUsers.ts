@@ -4,7 +4,7 @@ import axios from "axios";
 
 import compact from "lodash/compact";
 
-export const useGetUsers = (params: any) => {
+export const useGetUsers = (params?: any) => {
   return useQuery({
     queryKey: compact(["users", params]),
     queryFn: () => axios.get("/api/v1/users", { params }),

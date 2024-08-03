@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import {
   Card,
@@ -11,6 +13,10 @@ import OrdersDialog from "./OrdersDialog";
 import OrdersTable from "./OrdersTable";
 
 const OrdersView = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [detailData, setDetailData] = useState(null);
+  const [isViewDetail, setIsViewDetail] = useState(false);
+
   return (
     <>
       <Card>
@@ -22,7 +28,14 @@ const OrdersView = () => {
                 Asha Orders Management Dashboard
               </CardDescription>
             </div>
-            <OrdersDialog />
+            <OrdersDialog
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+              detailData={detailData}
+              setDetailData={setDetailData}
+              isViewDetail={isViewDetail}
+              setIsViewDetail={setIsViewDetail}
+            />
           </div>
         </CardHeader>
         <CardContent>
