@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +18,31 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export function DashboardLayout({ children }: any) {
+  const pathname = usePathname();
+
+  const listMenu = [
+    {
+      name: "Dashboard",
+      link: "/",
+      color: "text-foreground",
+    },
+    {
+      name: "Products",
+      link: "/products",
+      color: "text-muted-foreground",
+    },
+    {
+      name: "Orders",
+      link: "/orders",
+      color: "text-muted-foreground",
+    },
+    {
+      name: "Users",
+      link: "/users",
+      color: "text-muted-foreground",
+    },
+  ];
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -25,36 +54,21 @@ export function DashboardLayout({ children }: any) {
             <Package2 className="h-6 w-6" />
             <span className="sr-only">Acme Inc</span>
           </Link>
-          <Link
-            href="#"
-            className="text-foreground transition-colors hover:text-foreground"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Orders
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Customers
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Analytics
-          </Link>
+
+          {listMenu.map((menu, index) => {
+            const isActive = pathname === menu.link;
+            return (
+              <Link
+                key={index}
+                href={menu.link}
+                className={`${
+                  isActive ? "text-foreground" : "text-muted-foreground"
+                } transition-colors hover:text-foreground`}
+              >
+                {menu.name}
+              </Link>
+            );
+          })}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
