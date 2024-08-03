@@ -175,17 +175,17 @@ interface IRow {
 const Row = ({ order, onClickDetail }: IRow) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { mutate: deleteUser, isPending } = useDeleteOrder(order?.order?.id);
+  const { mutate: deleteOrder, isPending } = useDeleteOrder(order?.order?.id);
 
   const [showDialogConfirm, setShowDialogConfirm] = useState(false);
 
   const onClickDelete = () => {
-    deleteUser(null, {
+    deleteOrder(null, {
       onSuccess: (data: any) => {
         toast({
           description: data?.data?.message,
         });
-        queryClient.refetchQueries({ queryKey: ["users"] });
+        queryClient.refetchQueries({ queryKey: ["orders"] });
         setShowDialogConfirm(false);
       },
     });

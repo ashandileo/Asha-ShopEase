@@ -33,3 +33,26 @@ export async function PUT(request: NextRequest, route: any) {
     { status: 200 }
   );
 }
+
+export async function DELETE(request: NextRequest, route: any) {
+  const { id } = route.params;
+  const orderId = parseInt(id);
+
+  const deletedProduct = await db
+    .delete(ordersTable)
+    .where(eq(ordersTable.id, orderId))
+    .returning();
+
+  if (!deletedProduct) {
+    return NextResponse.json(createBaseResponse(404, "Order not found", null), {
+      status: 404,
+    });
+  }
+
+  return NextResponse.json(
+    createBaseResponse(200, "Order deleted successfully", {
+      user: deletedProduct,
+    }),
+    { status: 200 }
+  );
+}
