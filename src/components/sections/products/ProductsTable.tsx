@@ -30,7 +30,17 @@ import { Input } from "@/components/ui/input";
 
 import { buttonVariants } from "@/components/ui/button";
 
-const ProductsTable = () => {
+interface IProductsTable {
+  setOpenDialog: (openDialog: boolean) => void;
+  setDetailData: (detailData: any) => void;
+  setIsViewDetail: (isViewDetail: boolean) => void;
+}
+
+const ProductsTable = ({
+  setOpenDialog,
+  setDetailData,
+  setIsViewDetail,
+}: IProductsTable) => {
   return (
     <>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">

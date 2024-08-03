@@ -96,7 +96,6 @@ const UsersDialog = ({
 
   useEffect(() => {
     if (!detailData) return;
-
     form.reset({
       fullname: detailData.fullname,
       email: detailData.email,
