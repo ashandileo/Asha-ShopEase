@@ -43,3 +43,30 @@ export async function PUT(request: NextRequest, route: any) {
     { status: 200 }
   );
 }
+
+export async function DELETE(request: NextRequest, route: any) {
+  const { id } = route.params;
+  const userId = parseInt(id);
+
+  const deletedUser = await db
+    .delete(usersTable)
+    .where(eq(usersTable.id, userId))
+    .returning({
+      id: usersTable.id,
+      fullname: usersTable.fullname,
+      email: usersTable.email,
+      role: usersTable.role,
+      status: usersTable.status,
+    });
+
+  if (!deletedUser) {
+    return NextResponse.json(createBaseResponse(404, "User not found", null), {
+      status: 404,
+    });
+  }
+
+  return NextResponse.json(
+    createBaseResponse(200, "User deleted successfully", { user: deletedUser }),
+    { status: 200 }
+  );
+}

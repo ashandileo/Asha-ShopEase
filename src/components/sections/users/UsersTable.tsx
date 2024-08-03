@@ -26,17 +26,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 
-import { buttonVariants } from "@/components/ui/button";
-import { useGetUsers } from "@/hooks/api/useUsers";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useDeleteUser, useGetUsers } from "@/hooks/api/useUsers";
 
 import { RowsLoader } from "@/components/ui/rows-loader";
 
 import { useDebounce } from "use-debounce";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
 
 interface IUsersTable {
   setOpenDialog: (openDialog: boolean) => void;
@@ -111,41 +123,7 @@ const UsersTable = ({
             <RowsLoader cellCount={6} rowCount={5} />
           ) : (
             users?.map((user: any) => (
-              <TableRow key={user.id}>
-                <TableCell className="font-medium">{user?.fullname}</TableCell>
-                <TableCell>{user?.email}</TableCell>
-                <TableCell>{user?.role}</TableCell>
-                <TableCell>{user?.status}</TableCell>
-                <TableCell>{user?.createdAt}</TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <div
-                        className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
-                          variant: "outline",
-                        })}`}
-                      >
-                        <DotsVerticalIcon />
-                      </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onClick={() => onClickDetail(user, false)}
-                      >
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => onClickDetail(user, true)}
-                      >
-                        View Detail
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-500">
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
+              <Row key={user?.id} user={user} onClickDetail={onClickDetail} />
             ))
           )}
         </TableBody>
@@ -175,6 +153,85 @@ const UsersTable = ({
           </PaginationContent>
         </Pagination>
       </div>
+    </>
+  );
+};
+
+interface IRow {
+  user: any;
+  onClickDetail: (user: any, isViewDetail: boolean) => void;
+}
+
+const Row = ({ user, onClickDetail }: IRow) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { mutate: deleteUser, isPending } = useDeleteUser(user?.id);
+
+  const [showDialogConfirm, setShowDialogConfirm] = useState(false);
+
+  const onClickDelete = () => {
+    deleteUser(null, {
+      onSuccess: (data: any) => {
+        toast({
+          description: data?.data?.message,
+        });
+        queryClient.refetchQueries({ queryKey: ["users"] });
+        setShowDialogConfirm(false);
+      },
+    });
+  };
+
+  return (
+    <>
+      <TableRow>
+        <TableCell className="font-medium">{user?.fullname}</TableCell>
+        <TableCell>{user?.email}</TableCell>
+        <TableCell>{user?.role}</TableCell>
+        <TableCell>{user?.status}</TableCell>
+        <TableCell>{user?.createdAt}</TableCell>
+        <TableCell className="text-right">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div
+                className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
+                  variant: "outline",
+                })}`}
+              >
+                <DotsVerticalIcon />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => onClickDetail(user, false)}>
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onClickDetail(user, true)}>
+                View Detail
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShowDialogConfirm(true)}>
+                <span className="text-red-500">Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TableCell>
+      </TableRow>
+
+      <AlertDialog open={showDialogConfirm} onOpenChange={setShowDialogConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button onClick={onClickDelete} isLoading={isPending}>
+              Continue
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

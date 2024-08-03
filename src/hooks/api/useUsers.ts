@@ -22,3 +22,9 @@ export const useEditUser = (id: number) => {
     mutationFn: (body: any) => axios.put(`/api/v1/users/${id}`, body),
   });
 };
+
+export const useDeleteUser = (id: number) => {
+  return useMutation({
+    mutationFn: (body: any) => axios.delete(`/api/v1/users/${id}`, body),
+  });
+};
