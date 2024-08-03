@@ -35,6 +35,8 @@ import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import { useGetUsers } from "@/hooks/api/useUsers";
 
+import { RowsLoader } from "@/components/ui/rows-loader";
+
 const UsersTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -42,7 +44,7 @@ const UsersTable = () => {
     page: currentPage,
     pageSize: 5,
   };
-  const { data } = useGetUsers(params);
+  const { data, isFetching } = useGetUsers(params);
 
   const { users, nextPage, prevPage } = data?.data || {};
 
@@ -72,35 +74,39 @@ const UsersTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users?.map((user: any) => (
-            <TableRow key={user.id}>
-              <TableCell className="font-medium">{user?.fullname}</TableCell>
-              <TableCell>{user?.email}</TableCell>
-              <TableCell>{user?.role}</TableCell>
-              <TableCell>{user?.status}</TableCell>
-              <TableCell>{user?.createdAt}</TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <div
-                      className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
-                        variant: "outline",
-                      })}`}
-                    >
-                      <DotsVerticalIcon />
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>View Detail</DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-500">
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
+          {isFetching ? (
+            <RowsLoader cellCount={6} rowCount={5} />
+          ) : (
+            users?.map((user: any) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-medium">{user?.fullname}</TableCell>
+                <TableCell>{user?.email}</TableCell>
+                <TableCell>{user?.role}</TableCell>
+                <TableCell>{user?.status}</TableCell>
+                <TableCell>{user?.createdAt}</TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <div
+                        className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
+                          variant: "outline",
+                        })}`}
+                      >
+                        <DotsVerticalIcon />
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      <DropdownMenuItem>View Detail</DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-500">
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
       <div className="w-full flex justify-end">
