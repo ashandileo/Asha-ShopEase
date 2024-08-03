@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 import { hashPassword } from "@/lib/auth";
 import { createBaseResponse } from "@/lib/baseResponse";
-import { asc, count, sql, like, and } from "drizzle-orm";
+import { asc, count, sql, like, and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 // Handler function for GET requests
@@ -68,6 +68,20 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
+
+  // Check if email already exists
+  const existingUser = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.email, body.email))
+    .limit(1);
+
+  if (existingUser?.length > 0) {
+    return NextResponse.json(
+      createBaseResponse(409, "Email already exists", null),
+      { status: 409 }
+    );
+  }
 
   const newUser = {
     fullname: body.fullname,
