@@ -13,7 +13,9 @@ export async function POST(request: NextRequest) {
   });
 
   if (!user) {
-    return NextResponse.json(createBaseResponse(404, "Not Found", null));
+    return NextResponse.json(createBaseResponse(404, "User not found", null), {
+      status: 404,
+    });
   }
 
   const password = user.password;
@@ -33,5 +35,10 @@ export async function POST(request: NextRequest) {
     );
 
     return response;
+  } else {
+    return NextResponse.json(
+      createBaseResponse(401, "Invalid Email or Password", null),
+      { status: 401 }
+    );
   }
 }
