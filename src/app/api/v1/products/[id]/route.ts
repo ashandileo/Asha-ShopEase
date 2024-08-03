@@ -30,3 +30,29 @@ export async function PUT(request: NextRequest, route: any) {
     { status: 200 }
   );
 }
+
+export async function DELETE(request: NextRequest, route: any) {
+  const { id } = route.params;
+  const userId = parseInt(id);
+
+  const deletedProduct = await db
+    .delete(productsTable)
+    .where(eq(productsTable.id, userId))
+    .returning();
+
+  if (!deletedProduct) {
+    return NextResponse.json(
+      createBaseResponse(404, "Product not found", null),
+      {
+        status: 404,
+      }
+    );
+  }
+
+  return NextResponse.json(
+    createBaseResponse(200, "Product deleted successfully", {
+      user: deletedProduct,
+    }),
+    { status: 200 }
+  );
+}
