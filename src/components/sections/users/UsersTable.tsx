@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import {
@@ -31,8 +33,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { buttonVariants } from "@/components/ui/button";
+import { useGetUsers } from "@/hooks/api/useUsers";
 
 const UsersTable = () => {
+  const { data } = useGetUsers();
+  const users = data?.data?.users;
+
   return (
     <>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
@@ -50,7 +56,6 @@ const UsersTable = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Username</TableHead>
             <TableHead>Fullname</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
@@ -60,34 +65,35 @@ const UsersTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">ashandi.leonadi</TableCell>
-            <TableCell>Ashandi Leonadi</TableCell>
-            <TableCell>ashandileonadi@gmail.com</TableCell>
-            <TableCell>Manager</TableCell>
-            <TableCell>Active</TableCell>
-            <TableCell>3 Agustus 2024</TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <div
-                    className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
-                      variant: "outline",
-                    })}`}
-                  >
-                    <DotsVerticalIcon />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>View Detail</DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-500">
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
+          {users?.map((user: any) => (
+            <TableRow key={user.id}>
+              <TableCell className="font-medium">{user?.fullname}</TableCell>
+              <TableCell>{user?.email}</TableCell>
+              <TableCell>{user?.role}</TableCell>
+              <TableCell>{user?.status}</TableCell>
+              <TableCell>{user?.createdAt}</TableCell>
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <div
+                      className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
+                        variant: "outline",
+                      })}`}
+                    >
+                      <DotsVerticalIcon />
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem>View Detail</DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-500">
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
       <div className="w-full flex justify-end">
