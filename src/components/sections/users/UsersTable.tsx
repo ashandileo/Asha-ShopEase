@@ -32,7 +32,7 @@ import { Input } from "@/components/ui/input";
 
 import { buttonVariants } from "@/components/ui/button";
 
-const OrdersTable = () => {
+const UsersTable = () => {
   return (
     <>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
@@ -40,38 +40,33 @@ const OrdersTable = () => {
         <Button variant="outline">Search</Button>
       </div>
 
-      <Tabs defaultValue="pending" className="w-[400px] mb-[24px]">
+      <Tabs defaultValue="active" className="w-[400px] mb-[24px]">
         <TabsList>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="shipped">Shipped</TabsTrigger>
-          <TabsTrigger value="delivered">Delivered</TabsTrigger>
+          <TabsTrigger value="active">Active</TabsTrigger>
+          <TabsTrigger value="deactivated">Deactivated</TabsTrigger>
         </TabsList>
       </Tabs>
 
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Order ID</TableHead>
-            <TableHead>Customer Name</TableHead>
-            <TableHead>Order Date</TableHead>
+            <TableHead>Username</TableHead>
+            <TableHead>Fullname</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Role</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Total Amount</TableHead>
-            <TableHead>Payment Method</TableHead>
-            <TableHead>Shipping Address</TableHead>
-            <TableHead>Quantity</TableHead>
+            <TableHead>Registration Date</TableHead>
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell className="font-medium">#1</TableCell>
+            <TableCell className="font-medium">ashandi.leonadi</TableCell>
             <TableCell>Ashandi Leonadi</TableCell>
-            <TableCell>1 January 2024</TableCell>
-            <TableCell>Pending</TableCell>
-            <TableCell>IDR: 10.000.000</TableCell>
-            <TableCell>Transfer Bank</TableCell>
-            <TableCell>Jakarta Timur</TableCell>
-            <TableCell>1</TableCell>
+            <TableCell>ashandileonadi@gmail.com</TableCell>
+            <TableCell>Manager</TableCell>
+            <TableCell>Active</TableCell>
+            <TableCell>3 Agustus 2024</TableCell>
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger>
@@ -111,4 +106,4 @@ const OrdersTable = () => {
   );
 };
 
-export default OrdersTable;
+export default UsersTable;
