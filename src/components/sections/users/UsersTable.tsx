@@ -143,12 +143,16 @@ const UsersTable = ({ setOpenDialog, setDetailData }: IUsersTable) => {
           <PaginationContent>
             <PaginationItem
               onClick={() => prevPage && setCurrentPage(prevPage)}
-              className={`${prevPage ? "" : "opacity-50 pointer-events-none"}`}
+              className={`${
+                prevPage ? "cursor-pointer" : "opacity-50 pointer-events-none"
+              }`}
             >
               <PaginationPrevious />
             </PaginationItem>
             <PaginationItem
-              className={nextPage ? "" : "opacity-50 pointer-events-none"}
+              className={
+                nextPage ? "cursor-pointer" : "opacity-50 pointer-events-none"
+              }
               onClick={() => {
                 console.log("ok");
                 nextPage && setCurrentPage(nextPage);

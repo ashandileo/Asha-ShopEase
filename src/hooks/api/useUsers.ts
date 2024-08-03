@@ -16,3 +16,9 @@ export const usePostUser = () => {
     mutationFn: (body: any) => axios.post("/api/v1/users", body),
   });
 };
+
+export const useEditUser = (id: number) => {
+  return useMutation({
+    mutationFn: (body: any) => axios.put(`/api/v1/users/${id}`, body),
+  });
+};

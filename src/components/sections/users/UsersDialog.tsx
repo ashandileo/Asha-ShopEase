@@ -36,9 +36,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import usersSchema from "@/lib/zod/users.schema";
 import { z } from "zod";
-import { usePostUser } from "@/hooks/api/useUsers";
+import { useEditUser, usePostUser } from "@/hooks/api/useUsers";
 import { useQueryClient } from "@tanstack/react-query";
-import { DialogClose } from "@radix-ui/react-dialog";
 
 import { useToast } from "@/components/ui/use-toast";
 
@@ -70,16 +69,25 @@ const UsersDialog = ({
   });
 
   const { mutate: createUser, isPending } = usePostUser();
+  const { mutate: editUser } = useEditUser(detailData?.id);
 
   function onSubmit(values: z.infer<typeof usersSchema>) {
-    console.log("jalan kah bro?");
-    createUser(values, {
+    const queryFN = detailData ? editUser : createUser;
+
+    queryFN(values, {
       onSuccess: (data) => {
         toast({
           description: data?.data?.message,
         });
         queryClient.refetchQueries({ queryKey: ["users"] });
         setOpenDialog(false);
+      },
+      onError: (data: any) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: data?.response?.data?.message,
+        });
       },
     });
   }
