@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import {
   Table,
@@ -29,6 +31,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { buttonVariants } from "@/components/ui/button";
+import { useDebounce } from "use-debounce";
+import { useGetProducts } from "@/hooks/api/useProducts";
+import { RowsLoader } from "@/components/ui/rows-loader";
 
 interface IProductsTable {
   setOpenDialog: (openDialog: boolean) => void;
@@ -41,6 +46,25 @@ const ProductsTable = ({
   setDetailData,
   setIsViewDetail,
 }: IProductsTable) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [searchDebounce] = useDebounce(search, 1000);
+
+  const params = {
+    page: currentPage,
+    pageSize: 5,
+    search: searchDebounce,
+  };
+  const { data, isFetching } = useGetProducts(params);
+
+  const { products, nextPage, prevPage } = data?.data || {};
+
+  const onClickDetail = (user: any, isViewDetail: boolean = false) => {
+    setOpenDialog(true);
+    setDetailData(user);
+    setIsViewDetail(isViewDetail);
+  };
+
   return (
     <>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
@@ -59,49 +83,84 @@ const ProductsTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">
-              Apple MacBook Pro 17 inch
-            </TableCell>
-            <TableCell>Silver</TableCell>
-            <TableCell>Laptop</TableCell>
-            <TableCell>$250.00</TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <div
-                    className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
-                      variant: "outline",
-                    })}`}
-                  >
-                    <DotsVerticalIcon />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>View Detail</DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-500">
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
+          {isFetching ? (
+            <RowsLoader cellCount={5} rowCount={5} />
+          ) : (
+            products?.map((product: any) => (
+              <Row
+                key={product?.id}
+                product={product}
+                onClickDetail={onClickDetail}
+              />
+            ))
+          )}
         </TableBody>
       </Table>
       <div className="w-full flex justify-end">
         <Pagination className="!block !w-[auto] !mx-[0px]">
           <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
+            <PaginationItem
+              onClick={() => prevPage && setCurrentPage(prevPage)}
+              className={`${
+                prevPage ? "cursor-pointer" : "opacity-50 pointer-events-none"
+              }`}
+            >
+              <PaginationPrevious />
             </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
+            <PaginationItem
+              className={
+                nextPage ? "cursor-pointer" : "opacity-50 pointer-events-none"
+              }
+              onClick={() => {
+                console.log("ok");
+                nextPage && setCurrentPage(nextPage);
+              }}
+            >
+              <PaginationNext />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
       </div>
     </>
+  );
+};
+
+interface IRow {
+  product: any;
+  onClickDetail: (user: any, isViewDetail: boolean) => void;
+}
+
+const Row = ({ product, onClickDetail }: IRow) => {
+  return (
+    <TableRow>
+      <TableCell className="font-medium">{product?.products?.name}</TableCell>
+      <TableCell>{product?.products?.color}</TableCell>
+      <TableCell>{product?.categories?.name}</TableCell>
+      <TableCell>
+        {product?.products?.price.toLocaleString("id-ID", {
+          style: "currency",
+          currency: "IDR",
+        })}
+      </TableCell>
+      <TableCell className="text-right">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div
+              className={`!w-[32px] !h-[32px] !p-0 ${buttonVariants({
+                variant: "outline",
+              })}`}
+            >
+              <DotsVerticalIcon />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>View Detail</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
   );
 };
 
