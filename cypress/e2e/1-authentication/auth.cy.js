@@ -1,5 +1,8 @@
 describe("Login Test", () => {
   it("should login with valid credentials", () => {
+    // Intercept Login API
+    cy.intercept("POST", "http://localhost:3000/api/auth/login").as("login");
+
     // Visit the login page
     cy.visit("http://localhost:3000/sign-in");
 
@@ -12,6 +15,9 @@ describe("Login Test", () => {
     // Click login button
     cy.get('button[type="submit"]').click();
 
+    // Wait Login
+    cy.wait("@login");
+
     // Assert the user is redirected to the dashboard
     cy.url().should("include", "/dashboard");
 
@@ -20,6 +26,9 @@ describe("Login Test", () => {
   });
 
   it("should not login with invalid credentials", () => {
+    // Intercept Login API
+    cy.intercept("POST", "http://localhost:3000/api/auth/login").as("login");
+
     // Visit the login page
     cy.visit("http://localhost:3000/sign-in");
 
@@ -31,6 +40,9 @@ describe("Login Test", () => {
 
     // Click login button
     cy.get('button[type="submit"]').click();
+
+    // Wait Login
+    cy.wait("@login");
 
     // Assert the user is not redirected to the dashboard
     cy.url().should("not.include", "/dashboard");

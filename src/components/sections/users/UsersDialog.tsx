@@ -138,7 +138,7 @@ const UsersDialog = ({
 
       <DialogContent className="sm:max-w-[700px]">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} id="users-form">
             <DialogHeader className="mb-[24px]">
               <DialogTitle>{`${
                 isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"
