@@ -9,6 +9,16 @@ import {
 } from "@/components/ui/table";
 
 import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+import {
   Card,
   CardContent,
   CardDescription,
@@ -51,6 +61,18 @@ const ProductsPage = () => {
               </TableRow>
             </TableBody>
           </Table>
+          <div className="w-full flex justify-end">
+            <Pagination className="!block !w-[auto] !mx-[0px]">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext href="#" />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
         </CardContent>
       </Card>
     </>
