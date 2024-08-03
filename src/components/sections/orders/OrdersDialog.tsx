@@ -92,15 +92,10 @@ const OrdersDialog = ({
     },
   });
 
-  // console.log("watch", form.watch());
-
-  console.log("form", form.formState.errors);
-
   const { mutateAsync: createOrder } = usePostOrder();
-  const { mutateAsync: editOrder } = useEditOrder(detailData?.id);
+  const { mutateAsync: editOrder } = useEditOrder(detailData?.order?.id);
 
   async function onSubmit(values: z.infer<typeof ordersSchema>) {
-    console.log("submit bro");
     setIsLoading(true);
     const queryFN = isEdit ? editOrder : createOrder;
 
@@ -116,7 +111,7 @@ const OrdersDialog = ({
         toast({
           description: data?.data?.message,
         });
-        queryClient.refetchQueries({ queryKey: ["users"] });
+        queryClient.refetchQueries({ queryKey: ["orders"] });
         setOpenDialog(false);
       },
       onError: (data: any) => {
@@ -132,7 +127,16 @@ const OrdersDialog = ({
 
   useEffect(() => {
     if (isEdit && detailData) {
-      form.reset({});
+      form.reset({
+        userId: detailData?.user?.id?.toString(),
+        productId: detailData?.product?.id?.toString(),
+        orderDate: new Date(detailData?.order?.orderDate),
+        status: detailData?.order?.status,
+        paymentMethod: detailData?.order?.paymentMethod,
+        shippingAddress: detailData?.order?.shippingAddress,
+        quantity: detailData?.order?.quantity?.toString(),
+        totalAmount: detailData?.order?.totalAmount?.toString(),
+      });
     } else {
       form.reset({
         userId: "",
@@ -148,15 +152,25 @@ const OrdersDialog = ({
   }, [detailData, isEdit]);
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline">Create Order</Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            setDetailData(null);
+            setIsViewDetail(false);
+          }}
+        >
+          Create Order
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader className="mb-[24px]">
-              <DialogTitle>Create Order</DialogTitle>
+              <DialogTitle>{`${
+                isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"
+              } Order`}</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
@@ -197,6 +211,7 @@ const OrdersDialog = ({
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
+                            disabled={isViewDetail}
                             variant={"outline"}
                             className={cn(
                               "w-full pl-3 text-left font-normal",
@@ -342,6 +357,7 @@ const OrdersDialog = ({
                           id="shippingAddress"
                           placeholder="Shipping Address"
                           rows={4}
+                          disabled={isViewDetail}
                           {...field}
                         />
                       </FormControl>
@@ -351,11 +367,13 @@ const OrdersDialog = ({
                 />
               </div>
             </div>
-            <DialogFooter>
-              <Button type="submit" isLoading={isLoading}>
-                Save changes
-              </Button>
-            </DialogFooter>
+            {!isViewDetail && (
+              <DialogFooter>
+                <Button type="submit" isLoading={isLoading}>
+                  Save changes
+                </Button>
+              </DialogFooter>
+            )}
           </form>
         </Form>
       </DialogContent>

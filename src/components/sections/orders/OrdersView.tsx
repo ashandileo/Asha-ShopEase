@@ -17,6 +17,8 @@ const OrdersView = () => {
   const [detailData, setDetailData] = useState(null);
   const [isViewDetail, setIsViewDetail] = useState(false);
 
+  console.log("isViewDetail", isViewDetail);
+
   return (
     <>
       <Card>
@@ -39,7 +41,11 @@ const OrdersView = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <OrdersTable />
+          <OrdersTable
+            setOpenDialog={setOpenDialog}
+            setDetailData={setDetailData}
+            setIsViewDetail={setIsViewDetail}
+          />
         </CardContent>
       </Card>
     </>
