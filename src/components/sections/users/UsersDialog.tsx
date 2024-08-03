@@ -61,6 +61,8 @@ const UsersDialog = ({
   const isEdit = !!detailData;
 
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof usersSchema>>({
@@ -74,13 +76,14 @@ const UsersDialog = ({
     },
   });
 
-  const { mutate: createUser, isPending } = usePostUser();
-  const { mutate: editUser } = useEditUser(detailData?.id);
+  const { mutateAsync: createUser } = usePostUser();
+  const { mutateAsync: editUser } = useEditUser(detailData?.id);
 
-  function onSubmit(values: z.infer<typeof usersSchema>) {
+  async function onSubmit(values: z.infer<typeof usersSchema>) {
+    setIsLoading(true);
     const queryFN = isEdit ? editUser : createUser;
 
-    queryFN(values, {
+    await queryFN(values, {
       onSuccess: (data) => {
         toast({
           description: data?.data?.message,
@@ -96,6 +99,7 @@ const UsersDialog = ({
         });
       },
     });
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -279,7 +283,7 @@ const UsersDialog = ({
 
             {!isViewDetail && (
               <DialogFooter>
-                <Button type="submit" isLoading={isPending}>
+                <Button type="submit" isLoading={isLoading}>
                   Save changes
                 </Button>
               </DialogFooter>
