@@ -30,6 +30,7 @@ export async function GET(request: NextRequest) {
     users: filteredUsers,
     totalItems: totalItems,
     currentPage: page,
+    prevPage: page > 1 ? page - 1 : null,
     nextPage: page < totalPages ? page + 1 : null,
   };
 

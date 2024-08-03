@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Table,
@@ -36,8 +36,15 @@ import { buttonVariants } from "@/components/ui/button";
 import { useGetUsers } from "@/hooks/api/useUsers";
 
 const UsersTable = () => {
-  const { data } = useGetUsers();
-  const users = data?.data?.users;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const params = {
+    page: currentPage,
+    pageSize: 5,
+  };
+  const { data } = useGetUsers(params);
+
+  const { users, nextPage, prevPage } = data?.data || {};
 
   return (
     <>
@@ -99,11 +106,20 @@ const UsersTable = () => {
       <div className="w-full flex justify-end">
         <Pagination className="!block !w-[auto] !mx-[0px]">
           <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
+            <PaginationItem
+              onClick={() => prevPage && setCurrentPage(prevPage)}
+              className={`${prevPage ? "" : "opacity-50 pointer-events-none"}`}
+            >
+              <PaginationPrevious />
             </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
+            <PaginationItem
+              className={nextPage ? "" : "opacity-50 pointer-events-none"}
+              onClick={() => {
+                console.log("ok");
+                nextPage && setCurrentPage(nextPage);
+              }}
+            >
+              <PaginationNext />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
