@@ -47,6 +47,10 @@ Ensure you have the following installed:
 
 - Styling: Tailwind CSS is used for utility-first styling, allowing for rapid and consistent UI development.
 
+### Cypress
+
+- Testing: Cypress is a frontend test automation tool for regression testing of web applications. Cypress runs on Windows, Linux, and macOS.
+
 ## Login Information
 
 To log in to the dashboard, you can use the following credentials:
