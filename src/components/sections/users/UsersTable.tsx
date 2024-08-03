@@ -201,15 +201,19 @@ const Row = ({ user, onClickDetail }: IRow) => {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onClickDetail(user, false)}>
-                Edit
-              </DropdownMenuItem>
+              {user?.role !== "admin" && (
+                <DropdownMenuItem onClick={() => onClickDetail(user, false)}>
+                  Edit
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem onClick={() => onClickDetail(user, true)}>
                 View Detail
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setShowDialogConfirm(true)}>
-                <span className="text-red-500">Delete</span>
-              </DropdownMenuItem>
+              {user?.role !== "admin" && (
+                <DropdownMenuItem onClick={() => setShowDialogConfirm(true)}>
+                  <span className="text-red-500">Delete</span>
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </TableCell>
