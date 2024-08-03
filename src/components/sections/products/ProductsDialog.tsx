@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -58,7 +58,7 @@ const ProductsDialog = ({
   isViewDetail,
   setIsViewDetail,
 }: IProductsDialog) => {
-  console.log("detailData", detailData);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isEdit = !!detailData;
 
@@ -75,10 +75,12 @@ const ProductsDialog = ({
     },
   });
 
-  const { mutate: createProduct } = usePostProduct();
-  const { mutate: editProduct } = useEditProduct(detailData?.id);
+  const { mutateAsync: createProduct } = usePostProduct();
+  const { mutateAsync: editProduct } = useEditProduct(detailData?.id);
 
-  function onSubmit(values: z.infer<typeof productsSchema>) {
+  async function onSubmit(values: z.infer<typeof productsSchema>) {
+    setIsLoading(true);
+
     const queryFN = isEdit ? editProduct : createProduct;
 
     const formattedValues = {
@@ -86,7 +88,7 @@ const ProductsDialog = ({
       price: parseFloat(values.price),
     };
 
-    queryFN(formattedValues, {
+    await queryFN(formattedValues, {
       onSuccess: (data) => {
         toast({
           description: data?.data?.message,
@@ -102,6 +104,8 @@ const ProductsDialog = ({
         });
       },
     });
+
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -240,7 +244,9 @@ const ProductsDialog = ({
             </div>
             {!isViewDetail && (
               <DialogFooter>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit" isLoading={isLoading}>
+                  Save changes
+                </Button>
               </DialogFooter>
             )}
           </form>
