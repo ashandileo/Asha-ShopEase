@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# E-commerce Dashboard
+
+Live Preview : <https://asha-shop-ease.vercel.app/>
+
+## Introduction
+
+This project is a comprehensive e-commerce dashboard for administrators to manage products, orders, and users. It includes data visualizations, real-time updates, and complex user interactions.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ensure you have the following installed:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js v18.20.2 or higher
+- npm (Node Package Manager) v10.5.0 or higher
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Install the dependencies `npm run install`
+- Running the project `npm run dev`
+- Open your browser and go to <http://localhost:3000>.
 
-## Learn More
+## Architectural Overview
 
-To learn more about Next.js, take a look at the following resources:
+### Next.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Framework: The project is built using Next.js, which provides server-side rendering and static site generation for a performant and scalable application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Drizzle ORM
 
-## Deploy on Vercel
+- Database ORM: Drizzle ORM is used to manage database interactions with a focus on type safety and simplicity.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Turso
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Database: Turso is used as the database for storing all the application data.
+
+### React Query
+
+- Data Fetching: React Query is used to manage server state and handle data fetching, caching, and synchronization.
+
+### TypeScript
+
+- Type Safety: TypeScript is used to provide static typing, improving code quality and developer productivity.
+
+### Tailwindcss
+
+- Styling: Tailwind CSS is used for utility-first styling, allowing for rapid and consistent UI development.
+
+## Login Information
+
+To log in to the dashboard, you can use the following credentials:
+
+- Email: <administrator@asha.com>
+- Password: secret
+
+### Additional Notes
+
+The project is still in development, and some features may be incomplete or subject to change.
