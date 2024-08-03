@@ -38,7 +38,12 @@ import { RowsLoader } from "@/components/ui/rows-loader";
 
 import { useDebounce } from "use-debounce";
 
-const UsersTable = () => {
+interface IUsersTable {
+  setOpenDialog: (openDialog: boolean) => void;
+  setDetailData: (detailData: any) => void;
+}
+
+const UsersTable = ({ setOpenDialog, setDetailData }: IUsersTable) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [searchDebounce] = useDebounce(search, 1000);
@@ -113,7 +118,14 @@ const UsersTable = () => {
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setOpenDialog(true);
+                          setDetailData(user);
+                        }}
+                      >
+                        Edit
+                      </DropdownMenuItem>
                       <DropdownMenuItem>View Detail</DropdownMenuItem>
                       <DropdownMenuItem className="text-red-500">
                         Delete

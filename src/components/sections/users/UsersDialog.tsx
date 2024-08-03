@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -42,7 +42,19 @@ import { DialogClose } from "@radix-ui/react-dialog";
 
 import { useToast } from "@/components/ui/use-toast";
 
-const UsersDialog = () => {
+interface IUsersDialog {
+  openDialog: boolean;
+  setOpenDialog: (openDialog: boolean) => void;
+  detailData: any;
+  setDetailData: (detailData: any) => void;
+}
+
+const UsersDialog = ({
+  openDialog,
+  setOpenDialog,
+  detailData,
+  setDetailData,
+}: IUsersDialog) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -57,33 +69,48 @@ const UsersDialog = () => {
     },
   });
 
-  const [open, setOpen] = useState(false);
-
   const { mutate: createUser, isPending } = usePostUser();
 
   function onSubmit(values: z.infer<typeof usersSchema>) {
+    console.log("jalan kah bro?");
     createUser(values, {
       onSuccess: (data) => {
         toast({
           description: data?.data?.message,
         });
         queryClient.refetchQueries({ queryKey: ["users"] });
-        setOpen(false);
+        setOpenDialog(false);
       },
     });
   }
 
+  useEffect(() => {
+    if (!detailData) return;
+
+    form.reset({
+      fullname: detailData.fullname,
+      email: detailData.email,
+      role: detailData.role,
+      status: detailData.status,
+      password: "",
+    });
+  }, [detailData]);
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline">Create User</Button>
+        <Button variant="outline" onClick={() => setDetailData(null)}>
+          Create User
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[700px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader className="mb-[24px]">
-              <DialogTitle>Create User</DialogTitle>
+              <DialogTitle>
+                {`${detailData ? "Edit" : "Create"} User`}
+              </DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
@@ -206,8 +233,8 @@ const UsersDialog = () => {
                           id="password"
                           placeholder="Password"
                           type="password"
-                          autoComplete="off"
                           {...field}
+                          autoComplete="new-password"
                         />
                       </FormControl>
                       <FormMessage />
@@ -218,11 +245,9 @@ const UsersDialog = () => {
             </div>
 
             <DialogFooter>
-              <DialogClose>
-                <Button type="submit" isLoading={isPending}>
-                  Save changes
-                </Button>
-              </DialogClose>
+              <Button type="submit" isLoading={isPending}>
+                Save changes
+              </Button>
             </DialogFooter>
           </form>
         </Form>

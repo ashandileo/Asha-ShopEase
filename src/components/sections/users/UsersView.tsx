@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import {
   Card,
@@ -11,6 +13,10 @@ import UsersDialog from "./UsersDialog";
 import UsersTable from "./UsersTable";
 
 const UsersView = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [detailData, setDetailData] = useState(null);
+  console.log("detailData", detailData);
+
   return (
     <>
       <Card>
@@ -20,11 +26,19 @@ const UsersView = () => {
               <CardTitle>Users</CardTitle>
               <CardDescription>Asha Users Management Dashboard</CardDescription>
             </div>
-            <UsersDialog />
+            <UsersDialog
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+              detailData={detailData}
+              setDetailData={setDetailData}
+            />
           </div>
         </CardHeader>
         <CardContent>
-          <UsersTable />
+          <UsersTable
+            setOpenDialog={setOpenDialog}
+            setDetailData={setDetailData}
+          />
         </CardContent>
       </Card>
     </>
