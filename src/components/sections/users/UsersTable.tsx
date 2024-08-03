@@ -41,9 +41,14 @@ import { useDebounce } from "use-debounce";
 interface IUsersTable {
   setOpenDialog: (openDialog: boolean) => void;
   setDetailData: (detailData: any) => void;
+  setIsViewDetail: (isViewDetail: boolean) => void;
 }
 
-const UsersTable = ({ setOpenDialog, setDetailData }: IUsersTable) => {
+const UsersTable = ({
+  setOpenDialog,
+  setDetailData,
+  setIsViewDetail,
+}: IUsersTable) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [searchDebounce] = useDebounce(search, 1000);
@@ -58,6 +63,12 @@ const UsersTable = ({ setOpenDialog, setDetailData }: IUsersTable) => {
   const { data, isFetching } = useGetUsers(params);
 
   const { users, nextPage, prevPage } = data?.data || {};
+
+  const onClickDetail = (user: any, isViewDetail: boolean = false) => {
+    setOpenDialog(true);
+    setDetailData(user);
+    setIsViewDetail(isViewDetail);
+  };
 
   return (
     <>
@@ -119,14 +130,15 @@ const UsersTable = ({ setOpenDialog, setDetailData }: IUsersTable) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuItem
-                        onClick={() => {
-                          setOpenDialog(true);
-                          setDetailData(user);
-                        }}
+                        onClick={() => onClickDetail(user, false)}
                       >
                         Edit
                       </DropdownMenuItem>
-                      <DropdownMenuItem>View Detail</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => onClickDetail(user, true)}
+                      >
+                        View Detail
+                      </DropdownMenuItem>
                       <DropdownMenuItem className="text-red-500">
                         Delete
                       </DropdownMenuItem>

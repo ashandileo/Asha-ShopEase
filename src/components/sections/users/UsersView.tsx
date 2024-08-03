@@ -15,7 +15,7 @@ import UsersTable from "./UsersTable";
 const UsersView = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [detailData, setDetailData] = useState(null);
-  console.log("detailData", detailData);
+  const [isViewDetail, setIsViewDetail] = useState(false);
 
   return (
     <>
@@ -31,6 +31,7 @@ const UsersView = () => {
               setOpenDialog={setOpenDialog}
               detailData={detailData}
               setDetailData={setDetailData}
+              isViewDetail={isViewDetail}
             />
           </div>
         </CardHeader>
@@ -38,6 +39,7 @@ const UsersView = () => {
           <UsersTable
             setOpenDialog={setOpenDialog}
             setDetailData={setDetailData}
+            setIsViewDetail={setIsViewDetail}
           />
         </CardContent>
       </Card>

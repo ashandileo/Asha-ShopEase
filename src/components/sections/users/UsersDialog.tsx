@@ -46,6 +46,7 @@ interface IUsersDialog {
   setOpenDialog: (openDialog: boolean) => void;
   detailData: any;
   setDetailData: (detailData: any) => void;
+  isViewDetail: boolean;
 }
 
 const UsersDialog = ({
@@ -53,6 +54,7 @@ const UsersDialog = ({
   setOpenDialog,
   detailData,
   setDetailData,
+  isViewDetail,
 }: IUsersDialog) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -134,6 +136,7 @@ const UsersDialog = ({
                         <Input
                           id="fullname"
                           placeholder="Fullname"
+                          disabled={isViewDetail}
                           {...field}
                         />
                       </FormControl>
@@ -157,6 +160,7 @@ const UsersDialog = ({
                           id="email"
                           placeholder="Email"
                           type="email"
+                          disabled={isViewDetail}
                           {...field}
                         />
                       </FormControl>
@@ -179,6 +183,7 @@ const UsersDialog = ({
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          disabled={isViewDetail}
                         >
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Role" />
@@ -209,6 +214,7 @@ const UsersDialog = ({
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          disabled={isViewDetail}
                         >
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Status" />
@@ -241,6 +247,7 @@ const UsersDialog = ({
                           id="password"
                           placeholder="Password"
                           type="password"
+                          disabled={isViewDetail}
                           {...field}
                           autoComplete="new-password"
                         />
@@ -252,11 +259,13 @@ const UsersDialog = ({
               </div>
             </div>
 
-            <DialogFooter>
-              <Button type="submit" isLoading={isPending}>
-                Save changes
-              </Button>
-            </DialogFooter>
+            {!isViewDetail && (
+              <DialogFooter>
+                <Button type="submit" isLoading={isPending}>
+                  Save changes
+                </Button>
+              </DialogFooter>
+            )}
           </form>
         </Form>
       </DialogContent>
