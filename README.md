@@ -2,6 +2,27 @@
 
 Live Preview : <https://asha-shop-ease.vercel.app/>
 
+## Screenshot
+### Desktop Login
+<img src="https://github.com/ashandileo/Asha-ShopEase/blob/master/public/images/desktop-login.png" alt="Project Screenshot" width="400">
+
+### Mobile Login
+<img src="https://github.com/ashandileo/Asha-ShopEase/blob/master/public/images/mobile-login.png" alt="Project Screenshot" width="300">
+
+### Desktop Dashboard
+<img src="https://github.com/ashandileo/Asha-ShopEase/blob/master/public/images/desktop-dashboard.png" alt="Project Screenshot" width="400">
+
+### Mobile Dashboard
+<img src="https://github.com/ashandileo/Asha-ShopEase/blob/master/public/images/mobile-dashboard.png" alt="Project Screenshot" width="300">
+
+### Desktop User
+<img src="https://github.com/ashandileo/Asha-ShopEase/blob/master/public/images/desktop-user.png" alt="Project Screenshot" width="400">
+
+### Mobile User
+<img src="https://github.com/ashandileo/Asha-ShopEase/blob/master/public/images/mobile-user.png" alt="Project Screenshot" width="300">
+
+
+
 ## Introduction
 
 This project is a comprehensive e-commerce dashboard for administrators to manage products, orders, and users. It includes data visualizations, real-time updates, and complex user interactions.
