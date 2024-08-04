@@ -49,6 +49,7 @@ import { RowsLoader } from "@/components/ui/rows-loader";
 import { useDebounce } from "use-debounce";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
+import { t } from "i18next";
 
 interface IUsersTable {
   setOpenDialog: (openDialog: boolean) => void;
@@ -87,7 +88,7 @@ const UsersTable = ({
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
         <Input
           type="text"
-          placeholder="Search User Fullname.."
+          placeholder={t("Search User Fullname..")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -96,13 +97,13 @@ const UsersTable = ({
       <Tabs defaultValue="active" className="w-[400px] mb-[24px]">
         <TabsList>
           <TabsTrigger onClick={() => setStatus("active")} value="active">
-            Active
+            {t("Active")}
           </TabsTrigger>
           <TabsTrigger
             onClick={() => setStatus("inactive")}
             value="deactivated"
           >
-            Deactivated
+            {t("Deactivated")}
           </TabsTrigger>
         </TabsList>
       </Tabs>

@@ -18,12 +18,27 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { useLogout } from "@/hooks/api/useAuth";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function DashboardLayout({ children }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const { i18n } = useTranslation();
+
   const { mutate: logoutUser, isPending } = useLogout();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   const listMenu = [
     {
@@ -134,7 +149,21 @@ export function DashboardLayout({ children }: any) {
           </SheetContent>
         </Sheet>
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          <div className="ml-auto flex-1 sm:flex-initial"></div>
+          <div className="ml-auto flex-1 sm:flex-initial">
+            <Select
+              onValueChange={changeLanguage}
+              defaultValue={i18n.language}
+              value={i18n.language}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="id">Indonesian</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">

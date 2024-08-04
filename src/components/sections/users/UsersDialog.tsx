@@ -40,6 +40,7 @@ import { useEditUser, usePostUser } from "@/hooks/api/useUsers";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useToast } from "@/components/ui/use-toast";
+import { t } from "i18next";
 
 interface IUsersDialog {
   openDialog: boolean;
@@ -132,7 +133,7 @@ const UsersDialog = ({
             setIsViewDetail(false);
           }}
         >
-          Create User
+          {t("Create User")}
         </Button>
       </DialogTrigger>
 
@@ -140,9 +141,9 @@ const UsersDialog = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} id="users-form">
             <DialogHeader className="mb-[24px]">
-              <DialogTitle>{`${
-                isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"
-              } User`}</DialogTitle>
+              <DialogTitle>{`${t(
+                `${isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"} User`
+              )}`}</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">

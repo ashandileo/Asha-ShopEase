@@ -4,6 +4,8 @@ import "./globals.css";
 import ReactQueryProvider from "@/context/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 
+import ReactI18nextProvider from "@/context/ReactI18nextProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-        <Toaster />
+        <ReactI18nextProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <Toaster />
+        </ReactI18nextProvider>
       </body>
     </html>
   );

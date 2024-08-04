@@ -11,11 +11,18 @@ import {
 } from "@/components/ui/card";
 import UsersDialog from "./UsersDialog";
 import UsersTable from "./UsersTable";
+import { useTranslation } from "react-i18next";
 
 const UsersView = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [detailData, setDetailData] = useState(null);
   const [isViewDetail, setIsViewDetail] = useState(false);
+
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   return (
     <>
@@ -23,8 +30,10 @@ const UsersView = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Users</CardTitle>
-              <CardDescription>Asha Users Management Dashboard</CardDescription>
+              <CardTitle>{t("Users")}</CardTitle>
+              <CardDescription>
+                {t("Asha Users Management Dashboard")}
+              </CardDescription>
             </div>
             <UsersDialog
               openDialog={openDialog}
