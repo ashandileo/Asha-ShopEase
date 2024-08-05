@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AnimatePage } from "@/components/shared/animate-page";
+
 import UsersDialog from "./UsersDialog";
 import UsersTable from "./UsersTable";
 import { useTranslation } from "react-i18next";
@@ -18,14 +20,10 @@ const UsersView = () => {
   const [detailData, setDetailData] = useState(null);
   const [isViewDetail, setIsViewDetail] = useState(false);
 
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+  const { t } = useTranslation();
 
   return (
-    <>
+    <AnimatePage>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -53,7 +51,7 @@ const UsersView = () => {
           />
         </CardContent>
       </Card>
-    </>
+    </AnimatePage>
   );
 };
 

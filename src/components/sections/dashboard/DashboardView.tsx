@@ -2,18 +2,9 @@
 
 import React from "react";
 
-import Link from "next/link";
-import {
-  Activity,
-  ArrowUpRight,
-  CreditCard,
-  DollarSign,
-  Users,
-} from "lucide-react";
+import { Activity, CreditCard, DollarSign, Users } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -21,14 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 import {
   ChartConfig,
@@ -38,6 +21,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { AnimatePage } from "@/components/shared/animate-page";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
@@ -65,7 +50,7 @@ const chartConfig = {
 
 const DashboardView = () => {
   return (
-    <div>
+    <AnimatePage>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mb-[24px]">
         <Card x-chunk="dashboard-01-chunk-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -219,7 +204,7 @@ const DashboardView = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AnimatePage>
   );
 };
 

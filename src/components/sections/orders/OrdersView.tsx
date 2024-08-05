@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AnimatePage } from "@/components/shared/animate-page";
+
 import OrdersDialog from "./OrdersDialog";
 import OrdersTable from "./OrdersTable";
 
@@ -17,10 +19,8 @@ const OrdersView = () => {
   const [detailData, setDetailData] = useState(null);
   const [isViewDetail, setIsViewDetail] = useState(false);
 
-  console.log("isViewDetail", isViewDetail);
-
   return (
-    <>
+    <AnimatePage>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -48,7 +48,7 @@ const OrdersView = () => {
           />
         </CardContent>
       </Card>
-    </>
+    </AnimatePage>
   );
 };
 

@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AnimatePage } from "@/components/shared/animate-page";
+
 import ProductsDialog from "./ProductsDialog";
 import ProductsTable from "./ProductsTable";
 
@@ -18,7 +20,7 @@ const ProductsView = () => {
   const [isViewDetail, setIsViewDetail] = useState(false);
 
   return (
-    <>
+    <AnimatePage>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -46,7 +48,7 @@ const ProductsView = () => {
           />
         </CardContent>
       </Card>
-    </>
+    </AnimatePage>
   );
 };
 
