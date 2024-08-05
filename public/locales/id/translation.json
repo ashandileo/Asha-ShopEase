@@ -1,10 +1,19 @@
 {
   "Users": "Users",
-  "Asha Users Management Dashboard": "Asha Users Management Dashboard",
+  "Asha Users Management Dashboard": "Dasbor Manajemen Pengguna Asha",
   "Search User Fullname..": "Cari Nama Lengkap Pengguna..",
   "Active": "Aktif",
   "Deactivated": "Nonaktif",
   "Create User": "Buat Pengguna",
   "Edit User": "Edit Pengguna",
-  "Detail User": "Detail Pengguna"
+  "Detail User": "Detail Pengguna",
+  "Fullname": "Nama Lengkap",
+  "Email": "Email",
+  "Role": "Peran",
+  "Status": "Status",
+  "Registration Date": "Tanggal Terdaftar",
+  "Password": "Kata Sandi",
+  "Save changes": "Simpan Perubahan",
+  "Previous": "Sebelumnya",
+  "Next": "Selanjutnya"
 }

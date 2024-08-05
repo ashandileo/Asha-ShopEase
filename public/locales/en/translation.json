@@ -6,5 +6,14 @@
   "Deactivated": "Deactivated",
   "Create User": "Create User",
   "Edit User": "Edit User",
-  "Detail User": "Detail User"
+  "Detail User": "Detail User",
+  "Fullname": "Fullname",
+  "Email": "Email",
+  "Role": "Role",
+  "Status": "Status",
+  "Registration Date": "Registration Date",
+  "Password": "Password",
+  "Save changes": "Save changes",
+  "Previous": "Previous",
+  "Next": "Next"
 }

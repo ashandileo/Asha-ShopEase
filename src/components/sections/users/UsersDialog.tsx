@@ -153,7 +153,7 @@ const UsersDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <Label className="mb-2 block" htmlFor="fullname">
-                        Fullname
+                        {t("Fullname")}
                       </Label>
                       <FormControl>
                         <Input
@@ -176,7 +176,7 @@ const UsersDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <Label className="mb-2 block" htmlFor="email">
-                        Email
+                        {t("Email")}
                       </Label>
                       <FormControl>
                         <Input
@@ -200,7 +200,7 @@ const UsersDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <Label className="mb-2 block" htmlFor="price">
-                        Role
+                        {t("Role")}
                       </Label>
                       <FormControl>
                         <Select
@@ -231,7 +231,7 @@ const UsersDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <Label className="mb-2 block" htmlFor="price">
-                        Status
+                        {t("Status")}
                       </Label>
                       <FormControl>
                         <Select
@@ -263,7 +263,7 @@ const UsersDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <Label className="mb-2 block" htmlFor="password">
-                        Password
+                        {t("Password")}
                       </Label>
                       <FormControl>
                         <Input
@@ -285,7 +285,7 @@ const UsersDialog = ({
             {!isViewDetail && (
               <DialogFooter>
                 <Button type="submit" isLoading={isLoading}>
-                  Save changes
+                  {t("Save changes")}
                 </Button>
               </DialogFooter>
             )}

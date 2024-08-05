@@ -111,11 +111,11 @@ const UsersTable = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Fullname</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Registration Date</TableHead>
+            <TableHead>{t("Fullname")}</TableHead>
+            <TableHead>{t("Email")}</TableHead>
+            <TableHead>{t("Role")}</TableHead>
+            <TableHead>{t("Status")}</TableHead>
+            <TableHead>{t("Registration Date")}</TableHead>
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>
@@ -145,7 +145,6 @@ const UsersTable = ({
                 nextPage ? "cursor-pointer" : "opacity-50 pointer-events-none"
               }
               onClick={() => {
-                console.log("ok");
                 nextPage && setCurrentPage(nextPage);
               }}
             >
