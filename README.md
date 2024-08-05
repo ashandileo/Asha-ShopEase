@@ -72,6 +72,9 @@ Ensure you have the following installed:
 
 - Testing: Cypress is a frontend test automation tool for regression testing of web applications. Cypress runs on Windows, Linux, and macOS.
 
+### react-i18next
+- react-i18next is a powerful internationalization framework for React / React Native which is based on i18next. 
+
 ## Login Information
 
 To log in to the dashboard, you can use the following credentials:
@@ -81,4 +84,5 @@ To log in to the dashboard, you can use the following credentials:
 
 ### Additional Notes
 
-The project is still in development, and some features may be incomplete or subject to change.
+- The project is still in development, and some features may be incomplete or subject to change.
+- For the translation, the page is currently only available on the Users page and is still ongoing.
