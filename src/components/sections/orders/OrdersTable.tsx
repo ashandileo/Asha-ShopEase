@@ -52,6 +52,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useGetProducts } from "@/hooks/api/useProducts";
 import { useDeleteOrder, useGetOrders } from "@/hooks/api/useOrders";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 interface IOrdersTable {
   setOpenDialog: (openDialog: boolean) => void;
@@ -68,6 +69,8 @@ const OrdersTable = ({
   const [search, setSearch] = useState("");
   const [searchDebounce] = useDebounce(search, 1000);
   const [status, setStatus] = useState("pending");
+
+  const { t } = useTranslation();
 
   const params = {
     page: currentPage,
@@ -90,7 +93,7 @@ const OrdersTable = ({
       <div className="flex w-full max-w-sm items-center space-x-2 mb-[24px]">
         <Input
           type="text"
-          placeholder="Search Shipping Address"
+          placeholder={t("Search Shipping Address..")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -99,13 +102,13 @@ const OrdersTable = ({
       <Tabs defaultValue="pending" className="w-[400px] mb-[24px]">
         <TabsList>
           <TabsTrigger onClick={() => setStatus("pending")} value="pending">
-            Pending
+            {t("Pending")}
           </TabsTrigger>
           <TabsTrigger onClick={() => setStatus("shipped")} value="shipped">
-            Shipped
+            {t("Shipped")}
           </TabsTrigger>
           <TabsTrigger onClick={() => setStatus("delivered")} value="delivered">
-            Delivered
+            {t("Delivered")}
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -113,14 +116,14 @@ const OrdersTable = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Order ID</TableHead>
-            <TableHead>Customer Name</TableHead>
-            <TableHead>Order Date</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Total Amount</TableHead>
-            <TableHead>Payment Method</TableHead>
-            <TableHead>Shipping Address</TableHead>
-            <TableHead>Quantity</TableHead>
+            <TableHead>{t("Order ID")}</TableHead>
+            <TableHead>{t("Customer Name")}</TableHead>
+            <TableHead>{t("Order Date")}</TableHead>
+            <TableHead>{t("Status")}</TableHead>
+            <TableHead>{t("Total Amount")}</TableHead>
+            <TableHead>{t("Payment Method")}</TableHead>
+            <TableHead>{t("Shipping Address")}</TableHead>
+            <TableHead>{t("Quantity")}</TableHead>
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>

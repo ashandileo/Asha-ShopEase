@@ -20,5 +20,16 @@
   "Asha Orders Management Dashboard": "Asha Orders Management Dashboard",
   "Create Order": "Create Order",
   "Edit Order": "Edit Order",
-  "Detail Order": "Detail Order"
+  "Detail Order": "Detail Order",
+  "Search Shipping Address..": "Search Shipping Address..",
+  "Pending": "Pending",
+  "Shipped": "Shipped",
+  "Delivered": "Delivered",
+  "Order ID": "Order ID",
+  "Customer Name": "Customer Name",
+  "Order": "Order",
+  "Total": "Total",
+  "Payment Method": "Payment Method",
+  "Shipping Address": "Shipping Address",
+  "Quantity": "Quantity"
 }
