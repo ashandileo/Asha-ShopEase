@@ -32,6 +32,7 @@ import { useLogin } from "@/hooks/api/useAuth";
 import { useRouter } from "next/navigation";
 
 import { useToast } from "@/components/ui/use-toast";
+// import Link from "next/link";
 
 const SignInView = () => {
   const router = useRouter();
@@ -64,12 +65,12 @@ const SignInView = () => {
   }
 
   return (
-    <div className="w-full h-[100vh] flex items-center justify-center">
+    <div className="w-full h-[100vh] flex items-center justify-center bg-primary">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card className="w-full max-w-sm">
             <CardHeader>
-              <CardTitle className="text-2xl">Login</CardTitle>
+              <CardTitle className="text-2xl">Asha ShopEase</CardTitle>
               <CardDescription>
                 Enter your email below to login to your account.
               </CardDescription>
@@ -117,9 +118,18 @@ const SignInView = () => {
               <FormMessage />
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full" isLoading={isPending}>
-                Sign in
-              </Button>
+              <div className="w-full">
+                <Button type="submit" className="w-full" isLoading={isPending}>
+                  Sign in
+                </Button>
+
+                {/* <div className="mt-4 text-center text-sm">
+                  Don&apos;t have an account?{" "}
+                  <Link href="#" className="underline">
+                    Sign up
+                  </Link>
+                </div> */}
+              </div>
             </CardFooter>
           </Card>
         </form>
