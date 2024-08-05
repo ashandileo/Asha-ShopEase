@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const unProtectedRoutes = ["/sign-in", "/api/auth/login"]; // Add your protected routes here
+const unProtectedRoutes = [
+  "/sign-in",
+  "/sign-up",
+  "/api/auth/login",
+  "/api/auth/register",
+]; // Add your protected routes here
 
 export function middleware(request: NextRequest) {
   // Check if the request URL is in the list of protected routes
