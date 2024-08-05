@@ -5,7 +5,7 @@
   "Active": "Aktif",
   "Deactivated": "Nonaktif",
   "Create User": "Buat Pengguna",
-  "Edit User": "Edit Pengguna",
+  "Edit User": "Ubah Pengguna",
   "Detail User": "Detail Pengguna",
   "Fullname": "Nama Lengkap",
   "Email": "Email",
@@ -15,5 +15,10 @@
   "Password": "Kata Sandi",
   "Save changes": "Simpan Perubahan",
   "Previous": "Sebelumnya",
-  "Next": "Selanjutnya"
+  "Next": "Selanjutnya",
+  "Orders": "Pesanan",
+  "Asha Orders Management Dashboard": "Dasbor Manajemen Pesanan Asha",
+  "Create Order": "Buat Order",
+  "Edit Order": "Ubah Order",
+  "Detail Order": "Detail Order"
 }

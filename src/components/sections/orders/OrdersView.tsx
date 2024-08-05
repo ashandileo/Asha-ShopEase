@@ -13,11 +13,14 @@ import { AnimatePage } from "@/components/shared/animate-page";
 
 import OrdersDialog from "./OrdersDialog";
 import OrdersTable from "./OrdersTable";
+import { useTranslation } from "react-i18next";
 
 const OrdersView = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [detailData, setDetailData] = useState(null);
   const [isViewDetail, setIsViewDetail] = useState(false);
+
+  const { t } = useTranslation();
 
   return (
     <AnimatePage>
@@ -25,9 +28,9 @@ const OrdersView = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Orders</CardTitle>
+              <CardTitle>{t("Orders")}</CardTitle>
               <CardDescription>
-                Asha Orders Management Dashboard
+                {t("Asha Orders Management Dashboard")}
               </CardDescription>
             </div>
             <OrdersDialog

@@ -53,6 +53,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import dayjs from "dayjs";
 import ordersSchema from "@/lib/zod/orders.schema";
+import { useTranslation } from "react-i18next";
 
 interface IOrdersDialog {
   openDialog: boolean;
@@ -71,6 +72,7 @@ const OrdersDialog = ({
   isViewDetail,
   setIsViewDetail,
 }: IOrdersDialog) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -149,6 +151,7 @@ const OrdersDialog = ({
         totalAmount: "",
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detailData, isEdit]);
 
   return (
@@ -161,16 +164,16 @@ const OrdersDialog = ({
             setIsViewDetail(false);
           }}
         >
-          Create Order
+          {t("Create Order")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} id="create-order-form">
             <DialogHeader className="mb-[24px]">
-              <DialogTitle>{`${
-                isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"
-              } Order`}</DialogTitle>
+              <DialogTitle>{`${t(
+                `${isViewDetail ? "Detail" : isEdit ? "Edit" : "Create"} Order`
+              )}`}</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
